@@ -190,10 +190,11 @@
    ========================================== */
 .stunning-title {
   position: relative;
+  text-align: center;
 }
 
 .title-sparkle {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   animation: sparkleRotate 2s ease-in-out infinite;
   display: inline-block;
 }
@@ -205,15 +206,16 @@
   75% { transform: rotate(-15deg) scale(1.2); }
 }
 
+/* Happy 20th Birthday - Vibrant Gold/Pink */
 .animate-word {
   display: inline-block;
-  animation: wordFloat 3s ease-in-out infinite, wordGlow 2s ease-in-out infinite;
-  background: linear-gradient(135deg, #FF6B6B, #FFE66D, #4ECDC4, #FF6B6B);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 10px rgba(255, 107, 107, 0.4));
+  color: #E91E63 !important;
+  -webkit-text-fill-color: #E91E63 !important;
+  font-weight: 800;
+  text-shadow: 
+    0 2px 10px rgba(233, 30, 99, 0.5),
+    0 0 30px rgba(255, 64, 129, 0.3);
+  animation: wordFloat 3s ease-in-out infinite;
 }
 
 .animate-word.delay-1 {
@@ -225,67 +227,84 @@
 }
 
 @keyframes wordGlow {
-  0%, 100% { filter: drop-shadow(0 2px 10px rgba(255, 107, 107, 0.4)); }
-  50% { filter: drop-shadow(0 4px 20px rgba(255, 230, 109, 0.8)); }
+  0%, 100% { text-shadow: 0 2px 10px rgba(233, 30, 99, 0.5); }
+  50% { text-shadow: 0 4px 20px rgba(233, 30, 99, 0.8); }
 }
 
-/* Stunning THARA Highlight - MEGA GLOW */
+/* Stunning THARUMA - VIBRANT PINK/GOLD */
 .highlight.mega-glow {
   display: inline-block;
   background: linear-gradient(90deg, 
-    #FF1493, #FF69B4, #FFD700, #FF69B4, #FF1493,
-    #FFD700, #FF1493, #FF69B4, #FFD700);
-  background-size: 400% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 900;
-  font-size: 3.5rem;
-  letter-spacing: 8px;
-  animation: megaShimmer 3s linear infinite, megaPulse 1.5s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.6))
-          drop-shadow(0 0 60px rgba(255, 215, 0, 0.4))
-          drop-shadow(0 0 90px rgba(255, 105, 180, 0.3));
-  position: relative;
-}
-
-.highlight.mega-glow::before {
-  content: 'THARUMA';
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: linear-gradient(90deg, 
-    transparent, rgba(255, 255, 255, 0.8), transparent);
+    #FF1493, #FF69B4, #FFD700, #FF69B4, #FF1493);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: textShine 2s ease-in-out infinite;
-  pointer-events: none;
+  color: transparent;
+  font-weight: 900;
+  font-size: 3rem;
+  letter-spacing: 6px;
+  animation: megaShimmer 2s linear infinite;
+  filter: drop-shadow(0 4px 15px rgba(255, 20, 147, 0.7));
+  position: relative;
 }
 
 @keyframes megaShimmer {
   0% { background-position: 0% 50%; }
-  100% { background-position: 400% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
 @keyframes megaPulse {
-  0%, 100% { 
-    transform: scale(1);
-    filter: drop-shadow(0 0 30px rgba(255, 20, 147, 0.6))
-            drop-shadow(0 0 60px rgba(255, 215, 0, 0.4));
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Mobile Responsive - Oppo Reno 10 & similar */
+@media (max-width: 768px) {
+  .stunning-title {
+    text-align: center;
   }
-  50% { 
-    transform: scale(1.02);
-    filter: drop-shadow(0 0 40px rgba(255, 20, 147, 0.8))
-            drop-shadow(0 0 80px rgba(255, 215, 0, 0.6))
-            drop-shadow(0 0 100px rgba(255, 105, 180, 0.5));
+  
+  .stunning-title .title-sparkle {
+    font-size: 1rem;
+  }
+  
+  .stunning-title .animate-word {
+    font-size: 1.6rem !important;
+  }
+  
+  .highlight.mega-glow {
+    font-size: 2.2rem !important;
+    letter-spacing: 4px;
+    filter: drop-shadow(0 3px 10px rgba(255, 20, 147, 0.6));
+  }
+  
+  .cake-emoji {
+    font-size: 1.8rem !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem !important;
   }
 }
 
-@keyframes textShine {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+@media (max-width: 480px) {
+  .stunning-title .animate-word {
+    font-size: 1.4rem !important;
+  }
+  
+  .highlight.mega-glow {
+    font-size: 1.8rem !important;
+    letter-spacing: 3px;
+  }
+  
+  .title-sparkle {
+    font-size: 0.9rem;
+  }
+  
+  .cake-emoji {
+    font-size: 1.5rem !important;
+  }
 }
 
 /* Legacy Highlight (keep for fallback) */
@@ -445,10 +464,10 @@
 }
 
 /* Mobile responsive */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .hero-content {
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
   }
 
   .hero-left {
@@ -457,15 +476,40 @@
   }
 
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+    line-height: 1.4;
   }
 
   .highlight {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .cake-emoji {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.4rem;
+  }
+
+  .highlight {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .cake-emoji {
+    font-size: 1.5rem;
   }
 }
 
@@ -597,31 +641,29 @@
    ========================================== */
 #surpriseBtn.stunning-btn {
   background: linear-gradient(135deg, 
-    #FF1493, #FF69B4, #FFD700, #FF8C00, #FF1493);
-  background-size: 300% 300%;
-  padding: 20px 50px;
-  font-size: 1.4rem;
-  border-radius: 60px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
+    #E91E63, #FF4081, #E91E63);
+  background-size: 200% 200%;
+  padding: 18px 45px;
+  font-size: 1.3rem;
+  border-radius: 50px;
+  border: none;
+  color: white;
   box-shadow:
-    0 0 20px rgba(255, 20, 147, 0.5),
-    0 0 40px rgba(255, 215, 0, 0.3),
-    0 0 60px rgba(255, 105, 180, 0.2),
-    0 10px 40px rgba(255, 20, 147, 0.4),
-    inset 0 0 20px rgba(255, 255, 255, 0.1);
-  animation: stunningBtnGradient 3s ease infinite, stunningBtnFloat 2s ease-in-out infinite;
+    0 8px 25px rgba(233, 30, 99, 0.5),
+    0 4px 15px rgba(255, 64, 129, 0.4);
+  animation: stunningBtnGradient 2s ease infinite, stunningBtnFloat 2.5s ease-in-out infinite;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 #surpriseBtn.stunning-btn .btn-content {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   z-index: 2;
   position: relative;
 }
@@ -629,11 +671,12 @@
 #surpriseBtn.stunning-btn .btn-text {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  font-size: 1.2rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 #surpriseBtn.stunning-btn .btn-emoji {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   animation: emojiDance 1s ease-in-out infinite;
 }
 
@@ -643,7 +686,7 @@
 
 #surpriseBtn.stunning-btn .btn-sparkle-left,
 #surpriseBtn.stunning-btn .btn-sparkle-right {
-  font-size: 1.2rem;
+  font-size: 1rem;
   animation: sparkleFloat 1.5s ease-in-out infinite;
   z-index: 2;
 }
@@ -660,24 +703,12 @@
 
 @keyframes sparkleFloat {
   0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
-  50% { transform: translateY(-5px) scale(1.2); opacity: 0.8; }
+  50% { transform: translateY(-3px) scale(1.1); opacity: 0.9; }
 }
 
 /* Button glow effect */
 #surpriseBtn.stunning-btn .btn-glow-effect {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
-  animation: glowRotate 4s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes glowRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  display: none;
 }
 
 /* Button shimmer effect */
@@ -689,9 +720,9 @@
   height: 100%;
   background: linear-gradient(90deg, 
     transparent, 
-    rgba(255, 255, 255, 0.4), 
+    rgba(255, 255, 255, 0.3), 
     transparent);
-  animation: shimmerSlide 2s ease-in-out infinite;
+  animation: shimmerSlide 2.5s ease-in-out infinite;
   pointer-events: none;
 }
 
@@ -702,21 +733,61 @@
 
 @keyframes stunningBtnFloat {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50% { transform: translateY(-5px); }
 }
 
 #surpriseBtn.stunning-btn:hover {
-  transform: translateY(-10px) scale(1.05);
+  transform: translateY(-8px) scale(1.03);
   box-shadow:
-    0 0 30px rgba(255, 20, 147, 0.7),
-    0 0 60px rgba(255, 215, 0, 0.5),
-    0 0 90px rgba(255, 105, 180, 0.3),
-    0 20px 60px rgba(255, 20, 147, 0.5);
-  border-color: rgba(255, 255, 255, 0.5);
+    0 12px 35px rgba(233, 30, 99, 0.6),
+    0 6px 20px rgba(255, 64, 129, 0.5);
 }
 
 #surpriseBtn.stunning-btn:active {
-  transform: translateY(-5px) scale(1.02);
+  transform: translateY(-3px) scale(1.01);
+}
+
+/* Mobile Responsive Button */
+@media (max-width: 768px) {
+  #surpriseBtn.stunning-btn {
+    padding: 16px 35px;
+    font-size: 1.1rem;
+    margin: 20px auto;
+  }
+  
+  #surpriseBtn.stunning-btn .btn-text {
+    font-size: 1.1rem;
+  }
+  
+  #surpriseBtn.stunning-btn .btn-emoji {
+    font-size: 1.2rem;
+  }
+  
+  #surpriseBtn.stunning-btn .btn-sparkle-left,
+  #surpriseBtn.stunning-btn .btn-sparkle-right {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #surpriseBtn.stunning-btn {
+    padding: 14px 28px;
+    font-size: 1rem;
+    gap: 4px;
+  }
+  
+  #surpriseBtn.stunning-btn .btn-text {
+    font-size: 1rem;
+  }
+  
+  #surpriseBtn.stunning-btn .btn-emoji {
+    font-size: 1.1rem;
+  }
+  
+  #surpriseBtn.stunning-btn .btn-sparkle-left,
+  #surpriseBtn.stunning-btn .btn-sparkle-right {
+    display: none;
+  }
 }
 
 @keyframes btnGradient {
