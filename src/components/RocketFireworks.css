@@ -555,28 +555,29 @@
 /* ============ REVEAL LETTERS ============ */
 .surprise-message-container {
     position: fixed;
-    top: 25%;
+    top: 20%;
     left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 500;
-    padding: 0 20px;
+    padding: 0 15px;
     box-sizing: border-box;
 }
 
 .surprise-letters {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 8px;
-    max-width: 95%;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
 }
 
 .reveal-letter {
     font-family: 'Great Vibes', cursive;
-    font-size: 5.5rem;
+    font-size: 4.5rem;
     font-weight: 700;
     color: #ffd700;
     text-shadow: 
@@ -590,10 +591,11 @@
     transform: scale(0) rotate(-20deg) translateY(50px);
     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    display: inline-block;
 }
 
 .reveal-letter.space {
-    width: 30px;
+    width: 20px;
 }
 
 .reveal-letter.visible {
@@ -630,7 +632,7 @@
 /* ============ LOVE MESSAGE ============ */
 .love-message-container {
     position: fixed;
-    top: 50%;
+    top: 45%;
     left: 0;
     width: 100%;
     display: flex;
@@ -638,21 +640,22 @@
     justify-content: center;
     align-items: center;
     z-index: 500;
-    padding: 0 20px;
+    padding: 0 15px;
     box-sizing: border-box;
 }
 
 .love-letters {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 6px;
-    max-width: 95%;
+    align-items: center;
+    gap: 0;
+    white-space: nowrap;
 }
 
 .love-letter {
     font-family: 'Dancing Script', cursive;
-    font-size: 3.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
     color: #ff69b4;
     text-shadow: 
@@ -663,10 +666,11 @@
     opacity: 0;
     transform: translateY(30px) scale(0.8);
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-block;
 }
 
 .love-letter.space {
-    width: 20px;
+    width: 15px;
 }
 
 .love-letter.visible {
@@ -929,16 +933,23 @@
     }
 
     .reveal-letter {
-        font-size: 3.5rem;
-        gap: 4px;
+        font-size: 3rem;
+    }
+
+    .reveal-letter.space {
+        width: 15px;
     }
 
     .love-letter {
-        font-size: 2.5rem;
+        font-size: 2rem;
+    }
+
+    .love-letter.space {
+        width: 12px;
     }
 
     .sub-love-message {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
     }
 
     .popup-heading {
@@ -999,16 +1010,32 @@
     }
 
     .reveal-letter {
-        font-size: 2.8rem;
-        gap: 3px;
+        font-size: 2.2rem;
+    }
+
+    .reveal-letter.space {
+        width: 12px;
     }
 
     .love-letter {
-        font-size: 2rem;
+        font-size: 1.6rem;
+    }
+
+    .love-letter.space {
+        width: 10px;
     }
 
     .sub-love-message {
-        font-size: 1.2rem;
+        font-size: 1rem;
+        margin-top: 20px;
+    }
+
+    .surprise-message-container {
+        top: 25%;
+    }
+
+    .love-message-container {
+        top: 42%;
     }
 
     .popup-heading {
@@ -1081,14 +1108,6 @@
     .flame-trail {
         width: 24px;
         height: 70px;
-    }
-
-    .surprise-message-container {
-        top: 20%;
-    }
-
-    .love-message-container {
-        top: 45%;
     }
 
     .romantic-popup {
