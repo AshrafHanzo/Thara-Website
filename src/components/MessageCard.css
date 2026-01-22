@@ -1,0 +1,575 @@
+/* ==========================================
+   MESSAGE CARD - BUTTER YELLOW THEME
+   ========================================== */
+
+.message-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  padding-top: 80px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  background: linear-gradient(180deg,
+      #FFF8E1 0%,
+      #FFF3C4 30%,
+      #FFECB3 60%,
+      #FFE082 100%);
+}
+
+/* ==========================================
+   BACK BUTTON
+   ========================================== */
+.message-page .back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  padding: 12px 24px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.9);
+  color: #5D4037;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.message-page .back-btn:hover {
+  background: #FFD700;
+  transform: translateX(-5px);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
+
+/* ==========================================
+   MESSAGE HEADER
+   ========================================== */
+.message-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.message-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: #F9A825;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.title-heart {
+  font-size: 2.5rem;
+  animation: heartPulse 2s ease-in-out infinite;
+}
+
+.title-heart:nth-child(3) {
+  animation-delay: 1s;
+}
+
+@keyframes heartPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+.title-text {
+  background: linear-gradient(90deg,
+      #F9A825,
+      #FFD700,
+      #F7DC6F,
+      #FFD700,
+      #F9A825);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 3s ease-in-out infinite;
+}
+
+@keyframes goldShimmer {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ==========================================
+   CURTAIN CONTAINER
+   ========================================== */
+.curtain-container {
+  position: relative;
+  width: 100%;
+  max-width: 550px;
+  min-height: 420px;
+  margin: 0 auto;
+}
+
+/* Curtain rod */
+.curtain-rod {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 105%;
+  height: 22px;
+  background: linear-gradient(to bottom,
+      #FFF2CC 0%,
+      #FFD700 30%,
+      #F9A825 70%,
+      #F7DC6F 100%);
+  border-radius: 12px;
+  box-shadow:
+    0 6px 20px rgba(249, 168, 37, 0.5),
+    inset 0 3px 6px rgba(255, 255, 255, 0.6);
+  z-index: 20;
+}
+
+.rod-end {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at 30% 30%, #FFF2CC, #FFD700, #F9A825);
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(249, 168, 37, 0.6);
+}
+
+.rod-left {
+  left: -12px;
+}
+
+.rod-right {
+  right: -12px;
+}
+
+/* ==========================================
+   CURTAINS
+   ========================================== */
+.curtains {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 0 0 25px 25px;
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  width: 52%;
+  height: 100%;
+  background: linear-gradient(135deg,
+      #F9A825 0%,
+      #F7DC6F 30%,
+      #FFE082 50%,
+      #F7DC6F 70%,
+      #F9A825 100%);
+  z-index: 10;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
+  transition: transform 1.2s ease;
+}
+
+.curtain::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(90deg,
+      transparent 0px,
+      rgba(255, 255, 255, 0.12) 2px,
+      transparent 4px);
+}
+
+.curtain-fold {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  background: linear-gradient(to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.06) 40%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(0, 0, 0, 0.06) 60%,
+      transparent 100%);
+}
+
+.curtain-left .curtain-fold:nth-child(1) {
+  right: 10%;
+}
+
+.curtain-left .curtain-fold:nth-child(2) {
+  right: 40%;
+  width: 20%;
+}
+
+.curtain-left .curtain-fold:nth-child(3) {
+  right: 70%;
+  width: 25%;
+}
+
+.curtain-right .curtain-fold:nth-child(1) {
+  left: 10%;
+}
+
+.curtain-right .curtain-fold:nth-child(2) {
+  left: 40%;
+  width: 20%;
+}
+
+.curtain-right .curtain-fold:nth-child(3) {
+  left: 70%;
+  width: 25%;
+}
+
+.curtain-left {
+  left: 0;
+  border-radius: 0 0 0 25px;
+}
+
+.curtain-right {
+  right: 0;
+  border-radius: 0 0 25px 0;
+}
+
+/* ==========================================
+   OPEN BUTTON
+   ========================================== */
+.curtain-open-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 15;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #5D4037;
+  border: none;
+  padding: 20px 45px;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow:
+    0 10px 40px rgba(255, 165, 0, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.4);
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: btnPulse 2s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 10px 40px rgba(255, 165, 0, 0.5);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.7);
+  }
+}
+
+.btn-sparkle {
+  font-size: 1.3rem;
+  animation: sparkleRotate 2s linear infinite;
+}
+
+.btn-sparkle:nth-child(3) {
+  animation-direction: reverse;
+}
+
+@keyframes sparkleRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.curtain-open-btn:hover {
+  background: linear-gradient(135deg, #FFA500, #FF8C00);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.curtains.open .curtain-open-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ==========================================
+   MESSAGE CONTENT
+   ========================================== */
+.message-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg,
+      rgba(255, 249, 220, 0.98) 0%,
+      rgba(255, 244, 190, 0.95) 50%,
+      rgba(255, 249, 220, 0.98) 100%);
+  backdrop-filter: blur(15px);
+  padding: 45px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 5;
+  border-radius: 0 0 25px 25px;
+}
+
+.message-greeting {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5rem;
+  color: #F9A825;
+  margin-bottom: 20px;
+  opacity: 0;
+  text-shadow: 0 2px 10px rgba(249, 168, 37, 0.3);
+}
+
+.message-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.4rem;
+  color: #5D4037;
+  line-height: 2;
+  max-width: 450px;
+  opacity: 0;
+}
+
+.highlight-text {
+  color: #F9A825;
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.message-signature {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: #F9A825;
+  margin-top: 25px;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.signature-heart {
+  font-size: 1.5rem;
+  animation: heartPulse 1.5s ease-in-out infinite;
+}
+
+/* Heart decorations */
+.message-hearts {
+  position: absolute;
+  font-size: 2rem;
+  opacity: 0;
+  filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.7));
+  animation: heartFloat 3s ease-in-out infinite;
+}
+
+.heart-1 {
+  top: 15px;
+  left: 15px;
+}
+
+.heart-2 {
+  top: 15px;
+  right: 15px;
+  animation-delay: 0.5s;
+}
+
+.heart-3 {
+  bottom: 15px;
+  left: 15px;
+  animation-delay: 1s;
+}
+
+.heart-4 {
+  bottom: 15px;
+  right: 15px;
+  animation-delay: 1.5s;
+}
+
+@keyframes heartFloat {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(10deg);
+  }
+}
+
+/* ==========================================
+   GALLERY BUTTON
+   ========================================== */
+.view-gallery-btn {
+  margin-top: 35px;
+  padding: 20px 55px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF69B4, #FFB6C1);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow:
+    0 12px 40px rgba(255, 105, 180, 0.4),
+    0 0 25px rgba(255, 182, 193, 0.25);
+  transition: all 0.4s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.view-gallery-btn .btn-icon {
+  font-size: 1.5rem;
+}
+
+.view-gallery-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow:
+    0 18px 50px rgba(255, 105, 180, 0.5),
+    0 0 40px rgba(255, 182, 193, 0.35);
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 600px) {
+  .message-title {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .title-heart {
+    font-size: 2rem;
+  }
+
+  .curtain-container {
+    max-width: 95%;
+    min-height: 380px;
+  }
+
+  .curtains {
+    height: 340px;
+  }
+
+  .message-content {
+    padding: 35px 25px;
+  }
+
+  .message-greeting {
+    font-size: 2rem;
+  }
+
+  .message-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+
+  .highlight-text {
+    font-size: 1.4rem;
+  }
+
+  .message-signature {
+    font-size: 1.5rem;
+  }
+
+  .curtain-open-btn {
+    padding: 16px 35px;
+    font-size: 1.3rem;
+  }
+
+  .view-gallery-btn {
+    padding: 16px 45px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .message-title {
+    font-size: 1.7rem;
+  }
+
+  .message-greeting {
+    font-size: 1.7rem;
+  }
+
+  .message-text {
+    font-size: 1.1rem;
+  }
+
+  .curtain-container {
+    min-height: 340px;
+  }
+
+  .curtains {
+    height: 300px;
+  }
+}
+
+/* iOS Safari fix */
+@supports (-webkit-touch-callout: none) {
+  .message-page {
+    height: -webkit-fill-available;
+  }
+}

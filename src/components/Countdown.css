@@ -1,0 +1,416 @@
+/* ==========================================
+   STUNNING COUNTDOWN TIMER - BUTTER YELLOW
+   ========================================== */
+.countdown {
+  padding: 25px 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.countdown.celebration-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+}
+
+.flip-timer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 15px;
+  flex-wrap: wrap;
+  perspective: 1000px;
+}
+
+.digit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  /* Hidden initially for anime.js entrance */
+}
+
+/* Timer Separator */
+.timer-separator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  height: 110px;
+  padding-top: 5px;
+}
+
+.separator-dot {
+  font-size: 1.8rem;
+  color: var(--golden-shimmer, #FFD700);
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  animation: separatorPulse 1s ease-in-out infinite;
+}
+
+.separator-dot:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+@keyframes separatorPulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* ==========================================
+   GLASSMORPHISM GOLDEN FLIP CARDS
+   ========================================== */
+.card {
+  width: 95px;
+  height: 110px;
+  position: relative;
+  transform-style: preserve-3d;
+  perspective: 600px;
+}
+
+.card .text {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 3.2rem;
+  font-weight: 800;
+  background: linear-gradient(180deg,
+      rgba(255, 249, 196, 0.95) 0%,
+      rgba(255, 236, 179, 0.98) 50%,
+      rgba(255, 224, 130, 0.95) 100%);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow:
+    0 15px 40px rgba(249, 168, 37, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.05);
+  position: relative;
+  font-variant-numeric: tabular-nums;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  color: var(--deep-gold, #F9A825);
+  text-shadow: 0 2px 15px rgba(249, 168, 37, 0.5);
+  animation: cardGlow 3s ease-in-out infinite;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover .text {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow:
+    0 20px 50px rgba(249, 168, 37, 0.4),
+    0 0 50px rgba(255, 215, 0, 0.4);
+}
+
+/* Card inner glow overlay */
+.card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  pointer-events: none;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 50%);
+}
+
+@keyframes cardGlow {
+
+  0%,
+  100% {
+    box-shadow:
+      0 15px 40px rgba(249, 168, 37, 0.3),
+      0 0 30px rgba(255, 215, 0, 0.2);
+  }
+
+  50% {
+    box-shadow:
+      0 15px 40px rgba(249, 168, 37, 0.4),
+      0 0 50px rgba(255, 215, 0, 0.4),
+      0 0 70px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* Shimmer overlay */
+.card .text::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  animation: shimmerSlide 3s ease-in-out infinite;
+  border-radius: 20px;
+}
+
+@keyframes shimmerSlide {
+
+  0%,
+  100% {
+    left: -100%;
+  }
+
+  50% {
+    left: 150%;
+  }
+}
+
+/* Middle divider line */
+.card .text::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(249, 168, 37, 0.4) 20%,
+      rgba(249, 168, 37, 0.4) 80%,
+      transparent 100%);
+  z-index: 1;
+}
+
+/* Flip Animation */
+.card.flip .text {
+  animation: flipCard 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes flipCard {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  50% {
+    transform: rotateX(-90deg);
+    box-shadow:
+      0 8px 20px rgba(249, 168, 37, 0.3),
+      0 0 60px rgba(255, 215, 0, 0.6);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+/* ==========================================
+   LABEL STYLING
+   ========================================== */
+.label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--dark-brown, #5D4037);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 5px rgba(255, 224, 130, 0.5);
+  opacity: 0.9;
+}
+
+/* ==========================================
+   BIRTHDAY CELEBRATION MESSAGE
+   ========================================== */
+.birthday-celebration {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  font-weight: 400;
+  background: linear-gradient(90deg,
+      #F9A825,
+      #FFD700,
+      #FFF8DC,
+      #FFD700,
+      #F9A825,
+      #FFD700);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowGold 4s linear infinite, celebrationBounce 1.5s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  text-align: center;
+  line-height: 1.3;
+  filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+}
+
+.celebration-emoji {
+  font-size: 3.5rem;
+  display: inline-block;
+  -webkit-text-fill-color: initial;
+}
+
+.celebration-text {
+  display: inline-block;
+}
+
+@keyframes rainbowGold {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+@keyframes celebrationBounce {
+
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-10px) scale(1.05);
+  }
+}
+
+/* Celebration sub-message */
+.celebration-sub {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.5rem;
+  color: var(--warm-gray, #6D4C41);
+  margin-top: 10px;
+  text-shadow: 0 2px 10px rgba(255, 224, 130, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Floating Particles */
+.celebration-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-particle {
+  position: absolute;
+  bottom: -50px;
+  font-size: 1.5rem;
+  animation: floatUp 4s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-400px) rotate(360deg);
+  }
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 768px) {
+  .flip-timer {
+    gap: 10px;
+  }
+
+  .timer-separator {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .countdown {
+    padding: 20px 15px;
+  }
+
+  .flip-timer {
+    gap: 12px;
+  }
+
+  .card {
+    width: 70px;
+    height: 85px;
+  }
+
+  .card .text {
+    font-size: 2.2rem;
+    border-radius: 16px;
+  }
+
+  .label {
+    font-size: 0.65rem;
+    letter-spacing: 1.5px;
+  }
+
+  .birthday-celebration {
+    font-size: 2rem;
+    padding: 15px;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .celebration-emoji {
+    font-size: 2.5rem;
+  }
+
+  .celebration-sub {
+    font-size: 1.1rem;
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 375px) {
+  .card {
+    width: 60px;
+    height: 75px;
+  }
+
+  .card .text {
+    font-size: 1.9rem;
+    border-radius: 14px;
+  }
+
+  .label {
+    font-size: 0.6rem;
+  }
+
+  .birthday-celebration {
+    font-size: 1.7rem;
+    padding: 12px;
+  }
+}

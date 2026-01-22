@@ -1,0 +1,437 @@
+/* ==========================================
+   GRAMOPHONE MINI - Compact Vinyl Disk Design
+   ========================================== */
+
+.gramophone-mini {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    z-index: 10;
+}
+
+/* ==========================================
+   FLOATING MUSIC NOTES
+   ========================================== */
+.music-notes-container {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    top: -50%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 30;
+}
+
+.floating-note {
+    position: absolute;
+    bottom: 40%;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: floatUp 3s ease-out forwards;
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(0.5) rotate(-10deg);
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-120px) scale(1.2) rotate(20deg);
+    }
+}
+
+/* ==========================================
+   VINYL GLOW EFFECT
+   ========================================== */
+.vinyl-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 105, 180, 0.3) 0%,
+            rgba(255, 182, 193, 0.2) 40%,
+            transparent 70%);
+    filter: blur(25px);
+    opacity: 0.4;
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+.vinyl-glow.playing {
+    opacity: 1;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+}
+
+/* ==========================================
+   VINYL DISK - Main Element
+   ========================================== */
+.vinyl-disk {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(145deg,
+            #1a1a1a 0%,
+            #2d2d2d 20%,
+            #1a1a1a 40%,
+            #0d0d0d 60%,
+            #1a1a1a 80%,
+            #2d2d2d 100%);
+    position: relative;
+    cursor: pointer;
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(255, 105, 180, 0.2),
+        inset 0 0 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+
+.vinyl-disk:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 105, 180, 0.3),
+        inset 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.vinyl-disk:active {
+    transform: scale(0.98);
+}
+
+.vinyl-disk.spinning {
+    animation: spin 3s linear infinite;
+}
+
+.vinyl-disk.loading {
+    opacity: 0.7;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Vinyl Grooves */
+.disk-groove {
+    position: absolute;
+    border: 1px solid rgba(100, 100, 100, 0.2);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.groove-1 {
+    width: 95%;
+    height: 95%;
+}
+
+.groove-2 {
+    width: 82%;
+    height: 82%;
+}
+
+.groove-3 {
+    width: 70%;
+    height: 70%;
+}
+
+.groove-4 {
+    width: 58%;
+    height: 58%;
+}
+
+/* ==========================================
+   CENTER LABEL (Album Cover)
+   ========================================== */
+.disk-label {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow:
+        0 0 15px rgba(255, 105, 180, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.2),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 3px solid #FFD700;
+}
+
+.label-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.label-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at 30% 30%,
+            rgba(255, 255, 255, 0.25) 0%,
+            transparent 50%);
+    pointer-events: none;
+}
+
+.label-center {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #333, #1a1a1a);
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.center-dot {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #FFD700;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 6px rgba(255, 215, 0, 1);
+}
+
+/* Vinyl Shine */
+.disk-shine {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.08) 25%,
+            transparent 45%,
+            rgba(255, 255, 255, 0.04) 65%,
+            transparent 100%);
+    pointer-events: none;
+}
+
+/* Play Indicator */
+.play-indicator {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+/* Show play indicator initially when needs interaction */
+.play-indicator.visible {
+    opacity: 1;
+}
+
+.vinyl-disk:hover .play-indicator:not(.hidden) {
+    opacity: 1;
+}
+
+.play-indicator span,
+.play-indicator .play-icon {
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+}
+
+.play-indicator.hidden {
+    display: none;
+}
+
+/* Pause Indicator - shows on hover when playing */
+.pause-indicator {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.vinyl-disk:hover .pause-indicator {
+    opacity: 1;
+}
+
+.pause-indicator span {
+    font-size: 2.2rem;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+}
+
+.mini-spinner {
+    width: 30px;
+    height: 30px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spinLoader 0.8s linear infinite;
+}
+
+@keyframes spinLoader {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================
+   SONG INFO - Below Disk
+   ========================================== */
+.song-info-mini {
+    text-align: center;
+    max-width: 200px;
+}
+
+.song-title-mini {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #e91e63, #ff6b9d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0 0 4px 0;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.song-artist-mini {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #8D6E63;
+    margin: 0;
+}
+
+.click-hint {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.8rem;
+    color: #e91e63;
+    margin: 8px 0 0 0;
+    animation: pulse 1.5s ease-in-out infinite;
+    font-weight: 500;
+}
+
+.loading-mini {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9rem;
+    color: #e91e63;
+    margin: 0;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 480px) {
+    .vinyl-disk {
+        width: 150px;
+        height: 150px;
+    }
+
+    .disk-label {
+        width: 65px;
+        height: 65px;
+    }
+
+    .vinyl-glow {
+        width: 160px;
+        height: 160px;
+    }
+
+    .song-title-mini {
+        font-size: 1.2rem;
+    }
+
+    .song-artist-mini {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 350px) {
+    .vinyl-disk {
+        width: 130px;
+        height: 130px;
+    }
+
+    .disk-label {
+        width: 55px;
+        height: 55px;
+    }
+
+    .label-center {
+        width: 12px;
+        height: 12px;
+    }
+
+    .song-title-mini {
+        font-size: 1.1rem;
+    }
+}

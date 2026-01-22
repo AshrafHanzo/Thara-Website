@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800;900&family=Great+Vibes&display=swap');
+
+/* ==========================================
+   THARA'S BIRTHDAY - BUTTER YELLOW THEME
+   ========================================== */
+
+:root {
+  /* Butter Yellow Color Palette */
+  --butter-yellow: #F7DC6F;
+  --soft-cream: #FFF9C4;
+  --warm-honey: #FFE082;
+  --deep-gold: #F9A825;
+  --golden-shimmer: #FFD700;
+  --soft-white: #FFFEF7;
+  --warm-white: #FFF8E1;
+  --light-peach: #FFECB3;
+
+  /* Accent Colors */
+  --rose-pink: #FFB6C1;
+  --soft-coral: #FFAB91;
+  --lavender: #E1BEE7;
+
+  /* Text Colors */
+  --charcoal: #2D3436;
+  --dark-brown: #5D4037;
+  --warm-gray: #6D4C41;
+
+  /* Glassmorphism */
+  --glass-yellow: rgba(247, 220, 111, 0.15);
+  --glass-cream: rgba(255, 249, 196, 0.2);
+  --glass-white: rgba(255, 255, 255, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  width: 100dvw;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg,
+      #FFF8E1 0%,
+      #FFECB3 15%,
+      #FFE082 30%,
+      #FFF9C4 50%,
+      #FFE0B2 70%,
+      #FFECB3 85%,
+      #FFF8E1 100%);
+  background-size: 400% 400%;
+  animation: butterGradient 20s ease infinite, fadeIn 800ms ease-out forwards;
+  text-align: center;
+  color: var(--charcoal);
+  scroll-behavior: smooth;
+  overflow: hidden;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  width: 100dvw;
+  position: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: pan-y;
+}
+
+/* Stunning animated butter yellow gradient */
+@keyframes butterGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  25% {
+    background-position: 50% 100%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  75% {
+    background-position: 50% 0%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Golden sparkle particle overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(255, 215, 0, 0.9), transparent),
+    radial-gradient(3px 3px at 25% 35%, rgba(255, 215, 0, 0.7), transparent),
+    radial-gradient(2px 2px at 40% 15%, rgba(255, 236, 179, 0.8), transparent),
+    radial-gradient(3px 3px at 55% 45%, rgba(255, 215, 0, 0.6), transparent),
+    radial-gradient(2px 2px at 70% 25%, rgba(255, 249, 196, 0.9), transparent),
+    radial-gradient(3px 3px at 85% 55%, rgba(255, 215, 0, 0.7), transparent),
+    radial-gradient(2px 2px at 15% 65%, rgba(255, 224, 130, 0.8), transparent),
+    radial-gradient(3px 3px at 30% 80%, rgba(255, 215, 0, 0.6), transparent),
+    radial-gradient(2px 2px at 60% 70%, rgba(255, 236, 179, 0.9), transparent),
+    radial-gradient(3px 3px at 80% 85%, rgba(255, 215, 0, 0.7), transparent),
+    radial-gradient(2px 2px at 95% 40%, rgba(255, 249, 196, 0.8), transparent),
+    radial-gradient(3px 3px at 5% 90%, rgba(255, 215, 0, 0.6), transparent);
+  background-size: 100% 100%;
+  animation: sparkleFloat 8s ease-in-out infinite;
+}
+
+@keyframes sparkleFloat {
+
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(-15px) scale(1.1);
+  }
+}
+
+/* Glowing sun orb effect */
+body::after {
+  content: '';
+  position: fixed;
+  top: -10%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle,
+      rgba(255, 215, 0, 0.4) 0%,
+      rgba(255, 224, 130, 0.2) 30%,
+      rgba(255, 236, 179, 0.1) 50%,
+      transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: sunGlow 10s ease-in-out infinite;
+}
+
+@keyframes sunGlow {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 0.9;
+  }
+}
+
+#root {
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Scrollbar styling */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--butter-yellow) var(--soft-cream);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--soft-cream);
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--butter-yellow), var(--warm-honey));
+  border-radius: 10px;
+}

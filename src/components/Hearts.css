@@ -1,0 +1,226 @@
+/* ==========================================
+   HEARTS & PARTICLES - BUTTER YELLOW THEME
+   ========================================== */
+
+.hearts {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0;
+}
+
+/* ==========================================
+   FLOATING PARTICLES
+   ========================================== */
+.floating-particle {
+  position: absolute;
+  bottom: -10%;
+  opacity: 0;
+  animation: floatUpParticle linear infinite;
+  filter: drop-shadow(0 0 10px currentColor);
+  will-change: transform, opacity;
+}
+
+.heart {
+  color: #FFD700;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.6));
+}
+
+.butterfly {
+  color: #F7DC6F;
+  filter: drop-shadow(0 0 10px rgba(247, 220, 111, 0.5));
+}
+
+.star {
+  color: #FFE082;
+  filter: drop-shadow(0 0 15px rgba(255, 224, 130, 0.7));
+}
+
+.sparkle {
+  color: #FFFACD;
+  filter: drop-shadow(0 0 12px rgba(255, 250, 205, 0.8));
+}
+
+@keyframes floatUpParticle {
+  0% {
+    bottom: -10%;
+    transform: translateX(0) rotate(0deg) scale(0);
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 0.7;
+    transform: translateX(0) rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: translateX(var(--sway-amplitude, 30px)) rotate(calc(90deg * var(--rotation-speed, 1)));
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: translateX(calc(var(--sway-amplitude, 30px) * -0.5)) rotate(calc(180deg * var(--rotation-speed, 1)));
+    opacity: 0.6;
+  }
+
+  75% {
+    transform: translateX(var(--sway-amplitude, 30px)) rotate(calc(270deg * var(--rotation-speed, 1)));
+    opacity: 0.4;
+  }
+
+  95% {
+    opacity: 0.2;
+  }
+
+  100% {
+    bottom: 110%;
+    transform: translateX(calc(var(--sway-amplitude, 30px) * -0.3)) rotate(calc(360deg * var(--rotation-speed, 1))) scale(0.8);
+    opacity: 0;
+  }
+}
+
+/* ==========================================
+   GLOWING ORBS
+   ========================================== */
+.glow-orbs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.3;
+  animation: orbFloat 15s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, transparent 70%);
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(255, 182, 193, 0.4) 0%, transparent 70%);
+  top: 60%;
+  right: 15%;
+  animation-delay: 5s;
+}
+
+.orb-3 {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 224, 130, 0.4) 0%, transparent 70%);
+  bottom: 20%;
+  left: 30%;
+  animation-delay: 10s;
+}
+
+@keyframes orbFloat {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+
+  25% {
+    transform: translate(30px, -30px) scale(1.1);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translate(-20px, 20px) scale(0.9);
+    opacity: 0.35;
+  }
+
+  75% {
+    transform: translate(20px, 10px) scale(1.05);
+    opacity: 0.45;
+  }
+}
+
+/* ==========================================
+   SHIMMER OVERLAY
+   ========================================== */
+.shimmer-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.03) 25%,
+      transparent 50%,
+      rgba(255, 224, 130, 0.03) 75%,
+      transparent 100%);
+  background-size: 400% 400%;
+  animation: shimmerMove 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmerMove {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  .glow-orb {
+    filter: blur(40px);
+    opacity: 0.2;
+  }
+
+  .orb-1 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .orb-2 {
+    width: 180px;
+    height: 180px;
+  }
+
+  .orb-3 {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* ==========================================
+   PERFORMANCE OPTIMIZATIONS
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+
+  .floating-particle,
+  .glow-orb,
+  .shimmer-overlay {
+    animation: none;
+    opacity: 0.5;
+  }
+}

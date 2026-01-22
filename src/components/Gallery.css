@@ -1,0 +1,343 @@
+/* ==========================================
+   GALLERY PAGE - BUTTER YELLOW THEME
+   ========================================== */
+
+.gallery-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   GALLERY HEADER
+   ========================================== */
+.gallery-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-top: 60px;
+}
+
+.gallery-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  background: linear-gradient(45deg,
+      var(--deep-gold, #F9A825),
+      var(--golden-shimmer, #FFD700),
+      var(--butter-yellow, #F7DC6F),
+      var(--golden-shimmer, #FFD700),
+      var(--deep-gold, #F9A825));
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 4s ease-in-out infinite;
+  margin: 0;
+  filter: drop-shadow(0 0 20px rgba(249, 168, 37, 0.4));
+}
+
+@keyframes goldShimmer {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.gallery-subtitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.3rem;
+  color: var(--warm-gray, #6D4C41);
+  margin-top: 10px;
+}
+
+/* ==========================================
+   GALLERY GRID
+   ========================================== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+/* ==========================================
+   GALLERY ITEM - GLASSMORPHISM
+   ========================================== */
+.gallery-item {
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+  background: rgba(255, 249, 196, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow:
+    0 15px 40px rgba(249, 168, 37, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  aspect-ratio: 4/3;
+}
+
+.gallery-item:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 25px 60px rgba(249, 168, 37, 0.35),
+    0 0 40px rgba(255, 215, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 215, 0, 0.6);
+}
+
+.gallery-item img,
+.gallery-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:hover video {
+  transform: scale(1.1);
+}
+
+/* Overlay with golden gradient */
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top,
+      rgba(249, 168, 37, 0.3) 0%,
+      transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+/* ==========================================
+   PLACEHOLDER FOR EMPTY SLOTS
+   ========================================== */
+.gallery-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 249, 196, 0.4);
+  border: 3px dashed rgba(255, 215, 0, 0.5);
+  border-radius: 25px;
+  aspect-ratio: 4/3;
+  transition: all 0.3s ease;
+}
+
+.gallery-placeholder:hover {
+  background: rgba(255, 224, 130, 0.4);
+  border-color: rgba(255, 215, 0, 0.7);
+}
+
+.placeholder-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.placeholder-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.3rem;
+  color: var(--warm-gray, #6D4C41);
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* ==========================================
+   LIGHTBOX
+   ========================================== */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
+  transform: scale(0.9);
+  transition: transform 0.4s ease;
+}
+
+.lightbox.open .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 50px;
+  height: 50px;
+  background: rgba(255, 249, 196, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 50%;
+  color: var(--golden-shimmer, #FFD700);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 215, 0, 0.4);
+  transform: scale(1.1);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 55px;
+  height: 55px;
+  background: rgba(255, 249, 196, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  border-radius: 50%;
+  color: var(--golden-shimmer, #FFD700);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.lightbox-nav:hover {
+  background: rgba(255, 215, 0, 0.4);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-prev {
+  left: 30px;
+}
+
+.lightbox-next {
+  right: 30px;
+}
+
+/* ==========================================
+   VIDEO INDICATOR
+   ========================================== */
+.video-indicator {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  background: rgba(255, 215, 0, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: var(--dark-brown, #5D4037);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+  transition: all 0.3s ease;
+  z-index: 5;
+}
+
+.gallery-item:hover .video-indicator {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 768px) {
+  .gallery-title {
+    font-size: 2.5rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .gallery-header {
+    padding-top: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-title {
+    font-size: 2rem;
+  }
+
+  .gallery-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .gallery-item {
+    border-radius: 20px;
+  }
+
+  .lightbox-nav {
+    width: 45px;
+    height: 45px;
+  }
+
+  .lightbox-close {
+    top: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+}
