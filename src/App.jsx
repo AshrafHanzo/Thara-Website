@@ -104,10 +104,12 @@ function App() {
                 <section className="hero-section">
                     <div className="hero-content">
                         <div className="hero-left">
-                            <h1 className="hero-title">
-                                <span className="title-word">Happy</span> <span className="title-word">20th</span> <span className="title-word">Birthday</span>
+                            <h1 className="hero-title stunning-title">
+                                <span className="title-sparkle">✨</span>
+                                <span className="title-word animate-word">Happy</span> <span className="title-word animate-word delay-1">20th</span> <span className="title-word animate-word delay-2">Birthday</span>
+                                <span className="title-sparkle">✨</span>
                                 <br />
-                                <span className="highlight">THARUMA</span> <span className="cake-emoji">🎂</span>
+                                <span className="highlight mega-glow">THARUMA</span> <span className="cake-emoji">🎂</span>
                             </h1>
                             <p className="hero-subtitle">
                                 <span className="heart-left">💕</span>
@@ -146,11 +148,19 @@ function App() {
 
                 <button
                     id="surpriseBtn"
-                    className="celebrate-btn"
+                    className="celebrate-btn stunning-btn"
                     disabled={!birthdayReached}
                     onClick={() => goToPage(2)}
                 >
-                    🎀 Let's Celebrate
+                    <span className="btn-sparkle-left">✨</span>
+                    <span className="btn-content">
+                        <span className="btn-emoji">🎉</span>
+                        <span className="btn-text">Let's Celebrate</span>
+                        <span className="btn-emoji">🎊</span>
+                    </span>
+                    <span className="btn-sparkle-right">✨</span>
+                    <span className="btn-glow-effect"></span>
+                    <span className="btn-shimmer"></span>
                 </button>
             </div>
 

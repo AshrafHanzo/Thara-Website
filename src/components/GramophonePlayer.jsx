@@ -37,7 +37,7 @@ const GramophonePlayer = forwardRef(({ onPanelOpen }, ref) => {
                     width: '0',
                     videoId: DEFAULT_VIDEO_ID,
                     playerVars: {
-                        'autoplay': 0, // Don't autoplay - wait for user interaction
+                        'autoplay': 1, // Autoplay enabled
                         'controls': 0,
                         'disablekb': 1,
                         'fs': 0,

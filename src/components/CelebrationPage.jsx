@@ -4,6 +4,7 @@ import "./CelebrationPage.css";
 import "./RocketFireworks.css";
 import MessageCard from "./MessageCard";
 import Gallery from "./Gallery";
+import RocketLaunchPage from "./RocketLaunchPage";
 import { usePerformance } from "../contexts/PerformanceContext";
 
 const CelebrationPage = ({ onNavigate, onGoBack }) => {
@@ -199,53 +200,8 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
 
   const handleLights = (e) => {
     createParticleBurst(e);
-
-    // Start rocket launch sequence
-    setShowRocketAnimation(true);
-
-    // Small delay then launch
-    setTimeout(() => {
-      setIsLaunching(true);
-
-      // Create smoke particles while launching
-      const smokeInterval = setInterval(() => {
-        if (particlesContainerRef.current) {
-          const smoke = document.createElement('div');
-          smoke.className = 'smoke-particle';
-          const size = Math.random() * 30 + 20;
-          smoke.style.cssText = `
-            left: calc(50% - ${size / 2}px);
-            bottom: ${Math.random() * 100 + 50}px;
-            width: ${size}px;
-            height: ${size}px;
-          `;
-          particlesContainerRef.current.appendChild(smoke);
-          setTimeout(() => smoke.remove(), 2000);
-        }
-      }, 100);
-
-      // Stop smoke after rocket is high enough
-      setTimeout(() => clearInterval(smokeInterval), 1500);
-
-      // Rocket explodes - show fireworks
-      setTimeout(() => {
-        setShowFireworks(true);
-        createFireworks();
-      }, 2000);
-
-      // Show surprise after fireworks start
-      setTimeout(() => {
-        setShowSurprise(true);
-        // Create golden confetti rain
-        createGoldenConfetti();
-      }, 3000);
-
-      // Show message popup
-      setTimeout(() => {
-        setShowMessagePopup(true);
-      }, 4500);
-
-    }, 500);
+    // Switch to the new interactive rocket launch page
+    setCurrentView("rocket-launch");
   };
 
   // Create realistic fireworks
@@ -403,6 +359,14 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
     return (
       <Gallery
         onGoBack={() => setCurrentView("message")}
+      />
+    );
+  }
+
+  if (currentView === "rocket-launch") {
+    return (
+      <RocketLaunchPage
+        onComplete={() => setCurrentView("message")}
       />
     );
   }
