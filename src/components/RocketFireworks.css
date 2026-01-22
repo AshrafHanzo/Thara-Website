@@ -1,0 +1,859 @@
+/* ===========================================
+   ROCKET LAUNCH & FIREWORKS ANIMATION
+   Stunning, realistic celebration sequence
+   =========================================== */
+
+/* ============ ROCKET CONTAINER ============ */
+.rocket-animation-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* ============ COUNTDOWN OVERLAY ============ */
+.launch-countdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.8),
+        0 0 40px rgba(255, 165, 0, 0.6),
+        0 0 60px rgba(255, 69, 0, 0.4);
+    animation: countdownPulse 1s ease-out;
+    z-index: 1001;
+}
+
+@keyframes countdownPulse {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ============ ROCKET DESIGN ============ */
+.rocket {
+    position: absolute;
+    bottom: -150px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 120px;
+    z-index: 1002;
+    filter: drop-shadow(0 0 20px rgba(255, 100, 0, 0.5));
+}
+
+.rocket-body {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 70px;
+    background: linear-gradient(90deg,
+            #e74c3c 0%,
+            #c0392b 30%,
+            #e74c3c 50%,
+            #c0392b 70%,
+            #e74c3c 100%);
+    border-radius: 50% 50% 10% 10% / 30% 30% 5% 5%;
+    box-shadow:
+        inset 5px 0 10px rgba(255, 255, 255, 0.3),
+        inset -5px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.rocket-nose {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 40px solid #c0392b;
+}
+
+.rocket-nose::after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: -8px;
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle, #87CEEB 30%, #5dade2 100%);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+}
+
+.rocket-fin-left,
+.rocket-fin-right {
+    position: absolute;
+    bottom: 20px;
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid #c0392b;
+}
+
+.rocket-fin-left {
+    left: 0;
+    border-right: 15px solid #e74c3c;
+    transform: rotate(-15deg);
+}
+
+.rocket-fin-right {
+    right: 0;
+    border-left: 15px solid #e74c3c;
+    transform: rotate(15deg);
+}
+
+/* ============ ROCKET FLAME ============ */
+.rocket-flame {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 50px;
+}
+
+.flame-core {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 40px;
+    background: linear-gradient(to top,
+            transparent 0%,
+            #f39c12 20%,
+            #e67e22 40%,
+            #e74c3c 60%,
+            #c0392b 80%,
+            transparent 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flameFlicker 0.1s infinite;
+}
+
+.flame-outer {
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25px;
+    height: 55px;
+    background: linear-gradient(to top,
+            transparent 0%,
+            rgba(255, 165, 0, 0.8) 30%,
+            rgba(255, 69, 0, 0.6) 60%,
+            transparent 100%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: flameFlicker 0.15s infinite alternate;
+    filter: blur(3px);
+}
+
+@keyframes flameFlicker {
+
+    0%,
+    100% {
+        transform: translateX(-50%) scaleY(1) scaleX(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: translateX(-50%) scaleY(1.1) scaleX(0.9);
+        opacity: 0.9;
+    }
+
+    50% {
+        transform: translateX(-50%) scaleY(0.9) scaleX(1.1);
+        opacity: 1;
+    }
+
+    75% {
+        transform: translateX(-50%) scaleY(1.05) scaleX(0.95);
+        opacity: 0.95;
+    }
+}
+
+/* ============ SMOKE TRAIL ============ */
+.smoke-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(200, 200, 200, 0.4) 50%,
+            transparent 100%);
+    pointer-events: none;
+    animation: smokeRise 2s ease-out forwards;
+}
+
+@keyframes smokeRise {
+    0% {
+        opacity: 0.8;
+        transform: scale(1) translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(3) translateY(-100px);
+    }
+}
+
+/* ============ ROCKET LAUNCH ANIMATION ============ */
+.rocket.launching {
+    animation: rocketLaunch 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes rocketLaunch {
+    0% {
+        bottom: -150px;
+        transform: translateX(-50%) rotate(0deg);
+    }
+
+    10% {
+        bottom: -100px;
+        transform: translateX(-50%) rotate(-2deg);
+    }
+
+    20% {
+        bottom: 0px;
+        transform: translateX(-50%) rotate(2deg);
+    }
+
+    50% {
+        bottom: 40%;
+        transform: translateX(-50%) rotate(-1deg);
+    }
+
+    80% {
+        bottom: 60%;
+        transform: translateX(-50%) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 70%;
+        transform: translateX(-50%) scale(0);
+        opacity: 0;
+    }
+}
+
+/* ============ EXPLOSION ============ */
+.explosion-container {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1003;
+}
+
+.explosion-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 215, 0, 0.8) 30%,
+            rgba(255, 100, 0, 0.5) 60%,
+            transparent 100%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: explosionRing 0.8s ease-out forwards;
+}
+
+@keyframes explosionRing {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(30);
+        opacity: 0;
+    }
+}
+
+/* ============ FIREWORKS ============ */
+.firework {
+    position: fixed;
+    z-index: 1004;
+    pointer-events: none;
+}
+
+.firework-particle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    animation: fireworkBurst 1.5s ease-out forwards;
+}
+
+@keyframes fireworkBurst {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Firework trails */
+.firework-trail {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    animation: trailFade 0.5s ease-out forwards;
+}
+
+@keyframes trailFade {
+    0% {
+        opacity: 0.8;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+}
+
+/* ============ SPARKLE STARS ============ */
+.sparkle-star {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow:
+        0 0 6px 2px rgba(255, 255, 255, 0.8),
+        0 0 12px 4px rgba(255, 215, 0, 0.4);
+    animation: sparkleTwinkle 0.8s ease-in-out infinite;
+    z-index: 1005;
+}
+
+@keyframes sparkleTwinkle {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.5);
+    }
+}
+
+/* ============ SURPRISE REVEAL ============ */
+.surprise-reveal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1010;
+    pointer-events: none;
+    opacity: 0;
+    animation: surpriseReveal 1.5s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes surpriseReveal {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.surprise-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 4rem;
+    font-weight: 700;
+    background: linear-gradient(135deg,
+            #FFD700 0%,
+            #FFA500 25%,
+            #FF69B4 50%,
+            #FFD700 75%,
+            #FFA500 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    animation: titleShimmer 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+    margin-bottom: 20px;
+}
+
+@keyframes titleShimmer {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.surprise-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    animation: subtitleGlow 2s ease-in-out infinite;
+}
+
+@keyframes subtitleGlow {
+
+    0%,
+    100% {
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+    }
+
+    50% {
+        text-shadow: 0 2px 20px rgba(255, 215, 0, 0.6);
+    }
+}
+
+/* ============ READ MESSAGE POPUP ============ */
+.message-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    animation: popupFadeIn 0.8s ease-out forwards;
+    animation-delay: 4s;
+    pointer-events: auto;
+}
+
+@keyframes popupFadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.message-popup-card {
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+    padding: 50px 40px;
+    background: linear-gradient(145deg,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(255, 200, 200, 0.1) 50%,
+            rgba(255, 150, 150, 0.05) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(255, 105, 180, 0.3),
+        inset 0 0 40px rgba(255, 255, 255, 0.05);
+    transform: scale(0.8) translateY(50px);
+    animation: cardReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    animation-delay: 4.3s;
+    overflow: hidden;
+}
+
+@keyframes cardReveal {
+    0% {
+        transform: scale(0.8) translateY(50px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Decorative hearts on card */
+.message-popup-card::before,
+.message-popup-card::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    opacity: 0.1;
+}
+
+.message-popup-card::before {
+    top: 20px;
+    left: 20px;
+    background: radial-gradient(circle, #FF69B4 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatHeart 3s ease-in-out infinite;
+}
+
+.message-popup-card::after {
+    bottom: 20px;
+    right: 20px;
+    background: radial-gradient(circle, #FFD700 0%, transparent 70%);
+    border-radius: 50%;
+    animation: floatHeart 3s ease-in-out infinite 1.5s;
+}
+
+@keyframes floatHeart {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(5px, -10px) scale(1.1);
+    }
+}
+
+.popup-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.popup-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    background: linear-gradient(135deg, #FF69B4, #FFD700);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        0 10px 40px rgba(255, 105, 180, 0.4),
+        0 0 30px rgba(255, 215, 0, 0.3);
+    animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 10px 40px rgba(255, 105, 180, 0.4);
+    }
+
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 50px rgba(255, 105, 180, 0.6);
+    }
+}
+
+/* Letter icon using CSS */
+.letter-icon {
+    width: 40px;
+    height: 30px;
+    background: white;
+    border-radius: 3px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.letter-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 15px solid rgba(255, 105, 180, 0.8);
+}
+
+.popup-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #FFD700, #FF69B4, #FFD700);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleShimmer 3s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+.popup-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+.read-message-btn {
+    display: block;
+    width: 100%;
+    padding: 18px 40px;
+    margin-top: 30px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #FF69B4, #e91e63, #FF69B4);
+    background-size: 200% 200%;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow:
+        0 10px 40px rgba(255, 105, 180, 0.4),
+        0 0 20px rgba(233, 30, 99, 0.3);
+    transition: all 0.3s ease;
+    animation: btnGradient 4s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes btnGradient {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+.read-message-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.3),
+            transparent);
+    transition: left 0.5s ease;
+}
+
+.read-message-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+        0 15px 50px rgba(255, 105, 180, 0.5),
+        0 0 30px rgba(233, 30, 99, 0.4);
+}
+
+.read-message-btn:hover::before {
+    left: 100%;
+}
+
+/* ============ LAUNCH BUTTON ============ */
+.launch-rocket-btn {
+    padding: 20px 50px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: white;
+    background: linear-gradient(135deg, #e74c3c, #c0392b, #e74c3c);
+    background-size: 200% 200%;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow:
+        0 15px 50px rgba(231, 76, 60, 0.5),
+        0 0 30px rgba(192, 57, 43, 0.3);
+    transition: all 0.3s ease;
+    animation: launchBtnPulse 2s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes launchBtnPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 15px 50px rgba(231, 76, 60, 0.5);
+    }
+
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 20px 60px rgba(231, 76, 60, 0.7);
+    }
+}
+
+.launch-rocket-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.launch-rocket-btn:hover::before {
+    opacity: 1;
+}
+
+.launch-rocket-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow:
+        0 25px 70px rgba(231, 76, 60, 0.6),
+        0 0 40px rgba(192, 57, 43, 0.4);
+}
+
+/* ============ MOBILE RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .launch-countdown {
+        font-size: 5rem;
+    }
+
+    .rocket {
+        width: 40px;
+        height: 100px;
+    }
+
+    .rocket-body {
+        width: 24px;
+        height: 56px;
+    }
+
+    .rocket-nose {
+        border-left-width: 12px;
+        border-right-width: 12px;
+        border-bottom-width: 32px;
+        bottom: 82px;
+    }
+
+    .surprise-title {
+        font-size: 2.5rem;
+        padding: 0 20px;
+    }
+
+    .surprise-subtitle {
+        font-size: 1.1rem;
+        padding: 0 20px;
+    }
+
+    .message-popup-card {
+        width: 92%;
+        padding: 40px 25px;
+    }
+
+    .popup-title {
+        font-size: 2rem;
+    }
+
+    .popup-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .letter-icon {
+        width: 30px;
+        height: 22px;
+    }
+
+    .read-message-btn {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+
+    .launch-rocket-btn {
+        padding: 16px 40px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .launch-countdown {
+        font-size: 4rem;
+    }
+
+    .surprise-title {
+        font-size: 2rem;
+    }
+
+    .popup-title {
+        font-size: 1.7rem;
+    }
+
+    .message-popup-card {
+        padding: 30px 20px;
+    }
+}
+
+/* ============ GOLDEN CONFETTI ============ */
+.golden-confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    z-index: 1006;
+    pointer-events: none;
+}
+
+.golden-confetti.star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.golden-confetti.circle {
+    border-radius: 50%;
+}
+
+.golden-confetti.square {
+    border-radius: 2px;
+}

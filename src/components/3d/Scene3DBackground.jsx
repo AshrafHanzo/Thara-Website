@@ -3,6 +3,7 @@ import { Float, Stars, Sparkles, PointMaterial, Points } from '@react-three/drei
 import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
 import { useRef, useMemo, useState, useEffect } from 'react';
 import * as THREE from 'three';
+import { usePerformance, QUALITY_LEVELS } from '../../contexts/PerformanceContext';
 
 // Floating 3D Heart Component
 function FloatingHeart({ position, scale, speed, rotationSpeed, delay }) {
@@ -167,17 +168,25 @@ function ParallaxCamera() {
     return null;
 }
 
-// Main 3D Scene Background
-function Scene() {
-    const hearts = useMemo(() => [
-        { position: [-4, 2, -3], scale: 0.8, speed: 1.2, rotationSpeed: 0.5, delay: 0.2 },
-        { position: [3, -1, -4], scale: 0.6, speed: 0.8, rotationSpeed: 0.7, delay: 0.5 },
-        { position: [-2, -2, -2], scale: 0.5, speed: 1.5, rotationSpeed: 0.4, delay: 0.8 },
-        { position: [4, 1, -5], scale: 0.7, speed: 1.0, rotationSpeed: 0.6, delay: 1.0 },
-        { position: [0, 3, -4], scale: 0.9, speed: 0.9, rotationSpeed: 0.5, delay: 0.3 },
-        { position: [-3, 0, -3], scale: 0.4, speed: 1.3, rotationSpeed: 0.8, delay: 1.2 },
-        { position: [2, -2, -3], scale: 0.55, speed: 1.1, rotationSpeed: 0.6, delay: 0.7 },
-    ], []);
+// Main 3D Scene Background - Performance Adaptive
+function Scene({ settings }) {
+    // Adapt heart count based on settings
+    const hearts = useMemo(() => {
+        const allHearts = [
+            { position: [-4, 2, -3], scale: 0.8, speed: 1.2, rotationSpeed: 0.5, delay: 0.2 },
+            { position: [3, -1, -4], scale: 0.6, speed: 0.8, rotationSpeed: 0.7, delay: 0.5 },
+            { position: [-2, -2, -2], scale: 0.5, speed: 1.5, rotationSpeed: 0.4, delay: 0.8 },
+            { position: [4, 1, -5], scale: 0.7, speed: 1.0, rotationSpeed: 0.6, delay: 1.0 },
+            { position: [0, 3, -4], scale: 0.9, speed: 0.9, rotationSpeed: 0.5, delay: 0.3 },
+            { position: [-3, 0, -3], scale: 0.4, speed: 1.3, rotationSpeed: 0.8, delay: 1.2 },
+            { position: [2, -2, -3], scale: 0.55, speed: 1.1, rotationSpeed: 0.6, delay: 0.7 },
+        ];
+        return allHearts.slice(0, settings?.heartCount || 7);
+    }, [settings?.heartCount]);
+
+    const starCount = settings?.starCount || 1500;
+    const enableSparkles = settings?.enableSparkles !== false;
+    const enableBloom = settings?.enableBloom !== false;
 
     return (
         <>
@@ -197,24 +206,26 @@ function Scene() {
             <Stars
                 radius={50}
                 depth={50}
-                count={1500}
+                count={starCount}
                 factor={3}
                 saturation={0.5}
                 fade
                 speed={0.5}
             />
 
-            {/* Built-in sparkles */}
-            <Sparkles
-                count={100}
-                scale={15}
-                size={3}
-                speed={0.3}
-                color="#FFD700"
-            />
+            {/* Built-in sparkles - only on medium/high */}
+            {enableSparkles && (
+                <Sparkles
+                    count={settings?.particleCount || 100}
+                    scale={15}
+                    size={3}
+                    speed={0.3}
+                    color="#FFD700"
+                />
+            )}
 
-            {/* Custom golden particles */}
-            <GoldenSparkles />
+            {/* Custom golden particles - only on medium/high */}
+            {enableSparkles && <GoldenSparkles />}
 
             {/* Floating hearts */}
             {hearts.map((heart, i) => (
@@ -226,21 +237,32 @@ function Scene() {
             <LightOrb position={[5, -1, -5]} color="#FFA500" intensity={1.5} />
             <LightOrb position={[0, 3, -7]} color="#FFE4B5" intensity={1.8} />
 
-            {/* Post-processing effects */}
-            <EffectComposer>
-                <Bloom
-                    luminanceThreshold={0.2}
-                    luminanceSmoothing={0.9}
-                    intensity={0.8}
-                />
-                <Vignette eskil={false} offset={0.1} darkness={0.3} />
-            </EffectComposer>
+            {/* Post-processing effects - only on high quality */}
+            {enableBloom && (
+                <EffectComposer>
+                    <Bloom
+                        luminanceThreshold={0.2}
+                        luminanceSmoothing={0.9}
+                        intensity={0.8}
+                    />
+                    <Vignette eskil={false} offset={0.1} darkness={0.3} />
+                </EffectComposer>
+            )}
         </>
     );
 }
 
-// Exported Canvas Component
+// Exported Canvas Component - Performance Aware
 export default function Scene3DBackground({ className }) {
+    const { settings, quality } = usePerformance();
+
+    // Don't render 3D at all on low quality devices
+    if (quality === QUALITY_LEVELS.LOW || settings?.enable3D === false) {
+        return null;
+    }
+
+    const pixelRatio = settings?.pixelRatio || [1, 2];
+
     return (
         <div
             className={className}
@@ -256,14 +278,14 @@ export default function Scene3DBackground({ className }) {
         >
             <Canvas
                 camera={{ position: [0, 0, 8], fov: 60 }}
-                dpr={[1, 2]}
+                dpr={typeof pixelRatio === 'number' ? [1, pixelRatio] : pixelRatio}
                 gl={{
-                    antialias: true,
+                    antialias: quality === QUALITY_LEVELS.HIGH,
                     alpha: true,
-                    powerPreference: 'high-performance'
+                    powerPreference: quality === QUALITY_LEVELS.HIGH ? 'high-performance' : 'default'
                 }}
             >
-                <Scene />
+                <Scene settings={settings} />
             </Canvas>
         </div>
     );

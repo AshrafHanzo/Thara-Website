@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { animate, stagger } from "animejs";
 import "./CelebrationPage.css";
+import "./RocketFireworks.css";
 import MessageCard from "./MessageCard";
 import Gallery from "./Gallery";
+import { usePerformance } from "../contexts/PerformanceContext";
 
 const CelebrationPage = ({ onNavigate, onGoBack }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -11,8 +13,18 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
   const [showBalloons, setShowBalloons] = useState(false);
   const [showCake, setShowCake] = useState(false);
   const [showPhotos, setShowPhotos] = useState(false);
-  const [currentView, setCurrentView] = useState("slides"); // slides, buttons, message, gallery
+  const [currentView, setCurrentView] = useState("slides"); // slides, buttons, rocketShow, message, gallery
   const [noClickCount, setNoClickCount] = useState(0);
+
+  // Rocket animation states
+  const [showRocketAnimation, setShowRocketAnimation] = useState(false);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [showFireworks, setShowFireworks] = useState(false);
+  const [showSurprise, setShowSurprise] = useState(false);
+  const [showMessagePopup, setShowMessagePopup] = useState(false);
+
+  // Get performance settings for adaptive animations
+  const { settings: perfSettings } = usePerformance();
 
   const slidesRef = useRef(null);
   const buttonsRef = useRef(null);
@@ -188,71 +200,152 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
   const handleLights = (e) => {
     createParticleBurst(e);
 
-    // Start the romantic light sequence - lights turn on one by one
-    setShowLights(true);
+    // Start rocket launch sequence
+    setShowRocketAnimation(true);
 
-    // Add sequential light turn-on class
-    const stringLights = document.querySelector('.string-lights');
-    if (stringLights) {
-      stringLights.classList.add('turning-on');
+    // Small delay then launch
+    setTimeout(() => {
+      setIsLaunching(true);
 
-      // After all lights are on (about 3 seconds), show decorations
-      setTimeout(() => {
-        stringLights.classList.remove('turning-on');
-        stringLights.classList.add('active');
-
-        // Now show all the decorations with a romantic sequence
-        setShowDecorations(true);
-
-        setTimeout(() => setShowBalloons(true), 300);
-        setTimeout(() => setShowCake(true), 600);
-        setTimeout(() => setShowPhotos(true), 900);
-
-        // Create a burst of confetti after everything is ready
-        const confettiColors = ['#FFD700', '#FF69B4', '#FFB6C1', '#F7DC6F', '#87CEEB', '#DDA0DD'];
-        for (let i = 0; i < 50; i++) {
-          setTimeout(() => {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti-piece';
-            confetti.style.cssText = `
-              position: fixed;
-              left: ${Math.random() * 100}%;
-              top: -20px;
-              width: ${Math.random() * 12 + 6}px;
-              height: ${Math.random() * 12 + 6}px;
-              background: ${confettiColors[Math.floor(Math.random() * confettiColors.length)]};
-              border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
-              pointer-events: none;
-              z-index: 200;
-            `;
-            document.body.appendChild(confetti);
-
-            animate(confetti, {
-              translateY: window.innerHeight + 100,
-              translateX: (Math.random() - 0.5) * 200,
-              rotate: Math.random() * 720,
-              duration: 3000 + Math.random() * 2000,
-              easing: 'inQuad',
-              complete: () => confetti.remove()
-            });
-          }, i * 30);
+      // Create smoke particles while launching
+      const smokeInterval = setInterval(() => {
+        if (particlesContainerRef.current) {
+          const smoke = document.createElement('div');
+          smoke.className = 'smoke-particle';
+          const size = Math.random() * 30 + 20;
+          smoke.style.cssText = `
+            left: calc(50% - ${size / 2}px);
+            bottom: ${Math.random() * 100 + 50}px;
+            width: ${size}px;
+            height: ${size}px;
+          `;
+          particlesContainerRef.current.appendChild(smoke);
+          setTimeout(() => smoke.remove(), 2000);
         }
+      }, 100);
+
+      // Stop smoke after rocket is high enough
+      setTimeout(() => clearInterval(smokeInterval), 1500);
+
+      // Rocket explodes - show fireworks
+      setTimeout(() => {
+        setShowFireworks(true);
+        createFireworks();
+      }, 2000);
+
+      // Show surprise after fireworks start
+      setTimeout(() => {
+        setShowSurprise(true);
+        // Create golden confetti rain
+        createGoldenConfetti();
       }, 3000);
-    }
+
+      // Show message popup
+      setTimeout(() => {
+        setShowMessagePopup(true);
+      }, 4500);
+
+    }, 500);
   };
 
-  const goToMessage = (e) => {
-    createParticleBurst(e);
+  // Create realistic fireworks
+  const createFireworks = useCallback(() => {
+    const colors = ['#FFD700', '#FF69B4', '#87CEEB', '#FF6347', '#9370DB', '#00FA9A', '#FF1493', '#00CED1'];
+    const fireworkPositions = [
+      { x: 30, y: 25 }, { x: 70, y: 20 }, { x: 50, y: 30 },
+      { x: 20, y: 35 }, { x: 80, y: 30 }, { x: 40, y: 22 },
+      { x: 60, y: 28 }, { x: 35, y: 40 }, { x: 65, y: 38 }
+    ];
 
-    animate(buttonsRef.current, {
-      scale: [1, 0.9],
-      opacity: [1, 0],
-      duration: 400,
-      easing: 'inCubic',
-      complete: () => {
-        setCurrentView("message");
-      }
+    // Use adaptive particle count based on performance
+    const particleCount = perfSettings?.fireworkParticles || 40;
+    // Reduce firework positions on low performance
+    const positionsToUse = perfSettings?.animationComplexity === 'simple'
+      ? fireworkPositions.slice(0, 4)
+      : fireworkPositions;
+
+    positionsToUse.forEach((pos, idx) => {
+      setTimeout(() => {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.cssText = `left: ${pos.x}%; top: ${pos.y}%;`;
+
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement('div');
+          particle.className = 'firework-particle';
+          const angle = (360 / particleCount) * i;
+          const distance = 80 + Math.random() * 60;
+          const duration = 1000 + Math.random() * 500;
+
+          particle.style.cssText = `
+            background: ${color};
+            box-shadow: 0 0 6px ${color}, 0 0 12px ${color};
+          `;
+
+          firework.appendChild(particle);
+
+          // Animate particle outward
+          animate(particle, {
+            translateX: Math.cos(angle * Math.PI / 180) * distance,
+            translateY: Math.sin(angle * Math.PI / 180) * distance + 30,
+            opacity: [1, 0],
+            scale: [1, 0.3],
+            duration: duration,
+            easing: 'outQuad'
+          });
+        }
+
+        document.body.appendChild(firework);
+        setTimeout(() => firework.remove(), 2000);
+      }, idx * 200);
     });
+  }, [perfSettings]);
+
+  // Create golden confetti rain
+  const createGoldenConfetti = useCallback(() => {
+    const shapes = ['star', 'circle', 'square'];
+    // Use adaptive confetti count
+    const confettiCount = perfSettings?.confettiCount || 80;
+
+    for (let i = 0; i < confettiCount; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement('div');
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+        confetti.className = `golden-confetti ${shape}`;
+        const size = Math.random() * 15 + 8;
+        confetti.style.cssText = `
+          left: ${Math.random() * 100}%;
+          top: -20px;
+          width: ${size}px;
+          height: ${size}px;
+        `;
+        document.body.appendChild(confetti);
+
+        animate(confetti, {
+          translateY: window.innerHeight + 100,
+          translateX: (Math.random() - 0.5) * 200,
+          rotate: Math.random() * 1080,
+          duration: 3000 + Math.random() * 2000,
+          easing: 'inQuad',
+          complete: () => confetti.remove()
+        });
+      }, i * 50);
+    }
+  }, [perfSettings]);
+
+  const goToMessage = (e) => {
+    if (e) createParticleBurst(e);
+
+    // Reset rocket animation states
+    setShowRocketAnimation(false);
+    setIsLaunching(false);
+    setShowFireworks(false);
+    setShowSurprise(false);
+    setShowMessagePopup(false);
+
+    setCurrentView("message");
   };
 
   const goToGallery = () => {
@@ -261,6 +354,13 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
 
   const goBackToButtons = () => {
     setCurrentView("buttons");
+    // Reset animation states
+    setShowRocketAnimation(false);
+    setIsLaunching(false);
+    setShowFireworks(false);
+    setShowSurprise(false);
+    setShowMessagePopup(false);
+    setShowLights(false);
   };
 
   // Handle back button
@@ -274,6 +374,12 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
       setShowBalloons(false);
       setShowCake(false);
       setShowPhotos(false);
+      // Reset rocket states
+      setShowRocketAnimation(false);
+      setIsLaunching(false);
+      setShowFireworks(false);
+      setShowSurprise(false);
+      setShowMessagePopup(false);
     } else if (onGoBack) {
       onGoBack();
     }
@@ -595,22 +701,21 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
       ) : (
         <div className="celebration-buttons" ref={buttonsRef}>
           <h2 className="celebration-title">
-            {showLights ? "🎉 SURPRISE! 🎉" : "Ready for Magic?"}
+            Ready for the Surprise?
           </h2>
           <p className="celebration-subtitle">
-            {showLights ? "Happy 21st Birthday, THARUMA! 💛" : "Click to reveal your surprise..."}
+            Click the button to launch...
           </p>
 
           <div className="buttons-grid">
             {showLightsBtn && (
               <button
-                className="action-button lights-button glow-button"
+                className="launch-rocket-btn"
                 onClick={handleLights}
                 onMouseEnter={(e) => handleButtonHover(e, true)}
                 onMouseLeave={(e) => handleButtonHover(e, false)}
               >
-                <span className="btn-icon">💡</span>
-                <span className="btn-text">Turn On the Lights!</span>
+                Click to Launch
               </button>
             )}
 
@@ -629,22 +734,74 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
         </div>
       )}
 
-      {/* Romantic sparkles when lights are on */}
-      {showLights && (
-        <div className="romantic-sparkles">
-          {[...Array(30)].map((_, i) => (
-            <span
+      {/* Rocket Animation */}
+      {showRocketAnimation && (
+        <div className="rocket-animation-container" ref={particlesContainerRef}>
+          {/* The Rocket */}
+          <div className={`rocket ${isLaunching ? 'launching' : ''}`}>
+            <div className="rocket-nose"></div>
+            <div className="rocket-body"></div>
+            <div className="rocket-fin-left"></div>
+            <div className="rocket-fin-right"></div>
+            {isLaunching && (
+              <div className="rocket-flame">
+                <div className="flame-outer"></div>
+                <div className="flame-core"></div>
+              </div>
+            )}
+          </div>
+
+          {/* Explosion effect */}
+          {showFireworks && (
+            <div className="explosion-container">
+              <div className="explosion-ring"></div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Surprise Reveal */}
+      {showSurprise && (
+        <div className="surprise-reveal-container">
+          <h1 className="surprise-title">Happy 21st Birthday</h1>
+          <p className="surprise-subtitle">THARUMA</p>
+        </div>
+      )}
+
+      {/* Romantic Message Popup */}
+      {showMessagePopup && (
+        <div className="message-popup-overlay" onClick={(e) => e.target === e.currentTarget && null}>
+          <div className="message-popup-card">
+            <div className="popup-header">
+              <div className="popup-icon">
+                <div className="letter-icon"></div>
+              </div>
+              <h2 className="popup-title">A Message For You</h2>
+              <p className="popup-subtitle">Something special awaits...</p>
+            </div>
+            <button
+              className="read-message-btn"
+              onClick={goToMessage}
+            >
+              Read My Message
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Sparkle stars in background */}
+      {showFireworks && (
+        <div className="sparkle-stars-container">
+          {[...Array(50)].map((_, i) => (
+            <div
               key={i}
               className="sparkle-star"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
+                animationDelay: `${Math.random() * 2}s`,
               }}
-            >
-              ✨
-            </span>
+            />
           ))}
         </div>
       )}
