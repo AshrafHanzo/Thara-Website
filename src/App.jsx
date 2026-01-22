@@ -105,7 +105,7 @@ function App() {
                     <div className="hero-content">
                         <div className="hero-left">
                             <h1 className="hero-title">
-                                <span className="title-word">Happy</span> <span className="title-word">21st</span> <span className="title-word">Birthday</span>
+                                <span className="title-word">Happy</span> <span className="title-word">20th</span> <span className="title-word">Birthday</span>
                                 <br />
                                 <span className="highlight">THARUMA</span> <span className="cake-emoji">🎂</span>
                             </h1>

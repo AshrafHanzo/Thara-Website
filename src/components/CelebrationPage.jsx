@@ -763,7 +763,7 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
       {/* Surprise Reveal */}
       {showSurprise && (
         <div className="surprise-reveal-container">
-          <h1 className="surprise-title">Happy 21st Birthday</h1>
+          <h1 className="surprise-title">Happy 20th Birthday</h1>
           <p className="surprise-subtitle">THARUMA</p>
         </div>
       )}

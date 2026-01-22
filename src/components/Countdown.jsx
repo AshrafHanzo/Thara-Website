@@ -100,7 +100,7 @@ const Countdown = () => {
       <div className="countdown celebration-complete" ref={countdownRef}>
         <div className="birthday-celebration animate-pulse-glow-gold">
           <span className="celebration-emoji animate-heartbeat">🎂</span>
-          <span className="celebration-text animate-shimmer">Happy 21st Birthday, THARUMA!</span>
+          <span className="celebration-text animate-shimmer">Happy 20th Birthday, THARUMA!</span>
           <span className="celebration-emoji animate-heartbeat">🎂</span>
         </div>
         <p className="celebration-sub">
