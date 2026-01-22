@@ -8,7 +8,8 @@ const RocketLaunchPage = ({ onComplete }) => {
     const [revealedLetters, setRevealedLetters] = useState([]);
     const [revealedLoveLetters, setRevealedLoveLetters] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
-    const [rocketPosition, setRocketPosition] = useState({ x: 50, y: 80 });
+    const [rocketPosition, setRocketPosition] = useState({ x: 50, y: 75 });
+    const [rocketRotation, setRocketRotation] = useState(0);
     const containerRef = useRef(null);
     const rocketRef = useRef(null);
     const { settings: perfSettings } = usePerformance();
@@ -24,34 +25,79 @@ const RocketLaunchPage = ({ onComplete }) => {
         if (phase !== "ready") return;
 
         setPhase("launching");
+        
+        // Create initial launch particles
+        createLaunchBurst();
 
-        // Phase 1: Rocket shakes and lifts off
+        // Phase 1: Rocket shakes then smoothly lifts off
         setTimeout(() => {
             setPhase("flying");
-            flyRocketAround();
-        }, 800);
+            flyRocketSmooth();
+        }, 1200);
     };
 
-    // Fly rocket around the screen in a pattern
-    const flyRocketAround = useCallback(() => {
-        const positions = [
-            { x: 50, y: 60 },  // Up center
-            { x: 25, y: 40 },  // Left up
-            { x: 75, y: 30 },  // Right up
-            { x: 50, y: 20 },  // Center top
-            { x: 30, y: 35 },  // Left
-            { x: 70, y: 25 },  // Right
-            { x: 50, y: 15 },  // Final center before explosion
+    // Create burst effect on launch
+    const createLaunchBurst = () => {
+        const colors = ['#FFD700', '#FF4500', '#FF6347', '#FFA500', '#FF69B4'];
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = Math.random() * 10 + 5;
+            particle.style.cssText = `
+                position: fixed;
+                left: 50%;
+                top: 75%;
+                width: ${size}px;
+                height: ${size}px;
+                background: ${color};
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 800;
+                box-shadow: 0 0 15px ${color}, 0 0 30px ${color};
+            `;
+            document.body.appendChild(particle);
+
+            const angle = (360 / 30) * i;
+            const distance = 80 + Math.random() * 60;
+
+            animate(particle, {
+                translateX: Math.cos(angle * Math.PI / 180) * distance,
+                translateY: Math.sin(angle * Math.PI / 180) * distance,
+                opacity: [1, 0],
+                scale: [1.5, 0],
+                duration: 1000,
+                easing: 'outExpo',
+                complete: () => particle.remove()
+            });
+        }
+    };
+
+    // Smooth curved flight path
+    const flyRocketSmooth = useCallback(() => {
+        const flightPath = [
+            { x: 50, y: 65, rot: 0, duration: 500 },      // Lift off
+            { x: 50, y: 50, rot: 0, duration: 400 },      // Up
+            { x: 35, y: 40, rot: -20, duration: 500 },    // Curve left
+            { x: 20, y: 35, rot: -30, duration: 400 },    // More left
+            { x: 30, y: 25, rot: -10, duration: 500 },    // Up-right
+            { x: 50, y: 20, rot: 0, duration: 400 },      // Center top
+            { x: 70, y: 25, rot: 15, duration: 500 },     // Right
+            { x: 80, y: 35, rot: 25, duration: 400 },     // More right
+            { x: 65, y: 30, rot: 10, duration: 500 },     // Back toward center
+            { x: 50, y: 18, rot: 0, duration: 600 },      // Final center before explosion
         ];
 
         let posIndex = 0;
-        const interval = setInterval(() => {
-            if (posIndex < positions.length) {
-                setRocketPosition(positions[posIndex]);
-                createTrailParticles(positions[posIndex]);
+        
+        const animateToPosition = () => {
+            if (posIndex < flightPath.length) {
+                const target = flightPath[posIndex];
+                setRocketPosition({ x: target.x, y: target.y });
+                setRocketRotation(target.rot);
+                createTrailParticles({ x: target.x, y: target.y });
                 posIndex++;
+                setTimeout(animateToPosition, target.duration);
             } else {
-                clearInterval(interval);
                 // Rocket explodes at final position
                 setPhase("exploding");
                 createMegaExplosion();
@@ -60,38 +106,41 @@ const RocketLaunchPage = ({ onComplete }) => {
                 setTimeout(() => {
                     setPhase("revealing");
                     revealMainText();
-                }, 1500);
+                }, 1800);
             }
-        }, 400);
+        };
+        
+        animateToPosition();
     }, []);
 
     // Create trail particles as rocket flies
     const createTrailParticles = (pos) => {
-        const colors = ['#FFD700', '#FF69B4', '#FFA500', '#FF6347'];
-        for (let i = 0; i < 5; i++) {
+        const colors = ['#FFD700', '#FF69B4', '#FFA500', '#FF6347', '#FF4500'];
+        for (let i = 0; i < 8; i++) {
             const particle = document.createElement('div');
             particle.className = 'trail-particle';
             const color = colors[Math.floor(Math.random() * colors.length)];
+            const size = Math.random() * 8 + 4;
             particle.style.cssText = `
                 position: fixed;
                 left: ${pos.x}%;
-                top: ${pos.y}%;
-                width: 6px;
-                height: 6px;
+                top: ${pos.y + 5}%;
+                width: ${size}px;
+                height: ${size}px;
                 background: ${color};
                 border-radius: 50%;
                 pointer-events: none;
                 z-index: 900;
-                box-shadow: 0 0 10px ${color};
+                box-shadow: 0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color};
             `;
             document.body.appendChild(particle);
 
             animate(particle, {
-                translateX: (Math.random() - 0.5) * 50,
-                translateY: Math.random() * 30 + 20,
+                translateX: (Math.random() - 0.5) * 80,
+                translateY: Math.random() * 60 + 30,
                 opacity: [1, 0],
-                scale: [1, 0],
-                duration: 800,
+                scale: [1.2, 0],
+                duration: 1000 + Math.random() * 500,
                 easing: 'outQuad',
                 complete: () => particle.remove()
             });
@@ -273,8 +322,8 @@ const RocketLaunchPage = ({ onComplete }) => {
                     style={{
                         left: `${rocketPosition.x}%`,
                         top: `${rocketPosition.y}%`,
-                        transform: 'translate(-50%, -50%)',
-                        transition: phase === "flying" ? 'all 0.4s ease-out' : 'none'
+                        transform: `translate(-50%, -50%) rotate(${rocketRotation}deg)`,
+                        transition: phase === "flying" ? 'left 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), top 0.5s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.3s ease-out' : 'none'
                     }}
                 >
                     <div className="rocket-body-main">
@@ -297,8 +346,8 @@ const RocketLaunchPage = ({ onComplete }) => {
                     )}
                     {phase === "ready" && (
                         <div className="tap-hint pulse-hint">
-                            <span className="hint-emoji">👆</span>
                             <span className="hint-text">Tap the Rocket!</span>
+                            <span className="hint-emoji">👆</span>
                         </div>
                     )}
                 </div>
