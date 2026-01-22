@@ -674,12 +674,18 @@ const CelebrationPage = ({ onNavigate, onGoBack }) => {
           <div className="buttons-grid">
             {showLightsBtn && (
               <button
-                className="launch-rocket-btn"
+                className="launch-rocket-btn stunning-launch-btn"
                 onClick={handleLights}
                 onMouseEnter={(e) => handleButtonHover(e, true)}
                 onMouseLeave={(e) => handleButtonHover(e, false)}
               >
-                Click to Launch
+                <span className="launch-sparkle">✨</span>
+                <span className="launch-icon">🚀</span>
+                <span className="launch-text">Launch the Magic</span>
+                <span className="launch-icon">🎆</span>
+                <span className="launch-sparkle">✨</span>
+                <span className="btn-glow"></span>
+                <span className="btn-shimmer-effect"></span>
               </button>
             )}
 
