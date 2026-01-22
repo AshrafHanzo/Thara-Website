@@ -19,11 +19,9 @@ gsap.registerPlugin(ScrollToPlugin);
 
 function App() {
     const [currentPage, setCurrentPage] = useState(1); // Start at 1 for Countdown page
-    // Check localStorage to persist birthday reached state
-    const [birthdayReached, setBirthdayReached] = useState(() => {
-        const saved = localStorage.getItem("birthdayReached");
-        return saved === "true";
-    });
+    // TEMPORARILY: Set to true to enable immediate access to celebration page
+    // Change back to localStorage check after birthday
+    const [birthdayReached, setBirthdayReached] = useState(true);
     const [showEffects, setShowEffects] = useState(false);
     const [showMusicPanel, setShowMusicPanel] = useState(false);
 

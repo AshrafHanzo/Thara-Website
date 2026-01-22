@@ -44,14 +44,12 @@ export function PerformanceProvider({ children }) {
             });
             setIsLoading(false);
 
-            // Log performance info in development
-            if (import.meta.env.DEV) {
-                console.log('🎮 Performance Detection:', {
-                    score: result.score,
-                    quality: result.quality,
-                    details: result.details
-                });
-            }
+            // Log performance info (always show for debugging)
+            console.log('🎮 Performance Detection:', {
+                score: result.score,
+                quality: result.quality,
+                details: result.details
+            });
         });
     }, []);
 

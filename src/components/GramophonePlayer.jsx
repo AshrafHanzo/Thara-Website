@@ -74,7 +74,7 @@ const GramophonePlayer = forwardRef(({ onPanelOpen }, ref) => {
         console.log("YouTube player ready");
         setIsReady(true);
         event.target.setVolume(70);
-        // Auto-play when ready - try to start playing automatically
+        // Try to auto-play when ready
         try {
             event.target.playVideo();
             setNeedsInteraction(false);
@@ -84,6 +84,35 @@ const GramophonePlayer = forwardRef(({ onPanelOpen }, ref) => {
             setNeedsInteraction(true);
         }
     };
+
+    // Listen for first user interaction anywhere to start music
+    useEffect(() => {
+        if (!isReady || isPlaying || !needsInteraction) return;
+
+        const startMusicOnClick = () => {
+            if (playerRef.current && !isPlaying) {
+                try {
+                    playerRef.current.playVideo();
+                    setIsPlaying(true);
+                    setNeedsInteraction(false);
+                } catch (e) {
+                    console.log("Play on click failed:", e);
+                }
+            }
+            // Remove listener after first successful play
+            document.removeEventListener('click', startMusicOnClick);
+            document.removeEventListener('touchstart', startMusicOnClick);
+        };
+
+        // Add listeners for first interaction
+        document.addEventListener('click', startMusicOnClick);
+        document.addEventListener('touchstart', startMusicOnClick);
+
+        return () => {
+            document.removeEventListener('click', startMusicOnClick);
+            document.removeEventListener('touchstart', startMusicOnClick);
+        };
+    }, [isReady, isPlaying, needsInteraction]);
 
     const onPlayerStateChange = (event) => {
         // YT.PlayerState: ENDED = 0, PLAYING = 1, PAUSED = 2, BUFFERING = 3
